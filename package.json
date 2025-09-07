@@ -1,6 +1,6 @@
 {
-  "name": "detection",
-  "version": "0.1.0",
+  "name": "@venunathan12/detection",
+  "version": "0.1.1",
   "description": "An npm package for JSON Schema Validation and Detection",
   "main": "./bin/main.js",
   "type": "module",
@@ -25,7 +25,8 @@
   },
   "keywords": [
     "json",
-    "schema"
+    "schema",
+    "validation"
   ],
   "author": "Venu Nathan",
   "license": "MIT",
