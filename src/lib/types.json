@@ -1,0 +1,257 @@
+[
+    {
+        "id": "Void",
+        "assertions": [
+            "return false;"
+        ]
+    },
+    {
+        "id": "Constant",
+        "defaultargs": {
+            "value": null
+        },
+        "assertions": [
+            "return X === Q.value;"
+        ]
+    },
+    {
+        "id": "Universal",
+        "assertions": []
+    },
+    {
+        "id": "Null",
+        "assertions": [
+            "return X == null;"
+        ]
+    },
+    {
+        "id": "NonNull",
+        "assertions": [
+            "return X != null;"
+        ]
+    },
+    {
+        "id": "Boolean",
+        "defaultargs": {
+            "nullable": false
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || typeof X === 'boolean';"
+        ]
+    },
+    {
+        "id": "Number",
+        "defaultargs": {
+            "nullable": false
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || typeof X === 'number';"
+        ]
+    },
+    {
+        "id": "String",
+        "defaultargs": {
+            "nullable": false
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || typeof X === 'string';"
+        ]
+    },
+    {
+        "id": "List",
+        "defaultargs": {
+            "nullable": false,
+            "itemtype": {
+                "type": "Void",
+                "args": {}
+            }
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || (typeof X === 'object' && (X instanceof Array));",
+            "if (X == null) return true; if (Q.itemtype == null) return false; for (let i = 0; i < X.length; i++) if (P(X[i], { type: 'GetListItem', truetype: 'getlistitem', key: i, truekey: i }, Q.itemtype.type, Q.itemtype.args) !== true) return false; return true;"
+        ]
+    },
+    {
+        "id": "Set",
+        "defaultargs": {
+            "nullable": false,
+            "itemtype": {
+                "type": "Void",
+                "args": {}
+            },
+            "identifier": "return Symbol();"
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || (typeof X === 'object' && (X instanceof Array));",
+            "if (X == null) return true; if (Q.itemtype == null) return false; for (let i = 0; i < X.length; i++) if (P(X[i], { type: 'GetSetItem', truetype: 'getlistitem', key: -1, truekey: i }, Q.itemtype.type, Q.itemtype.args) !== true) return false; return true;",
+            "if (X == null) return true; if (Q.identifier == null) return false; let ID = null; eval(`ID = function (x) { ${ Q.identifier } }`); let uniqueidentifiers = new Map(); let duplicateidentifiers = []; for (let x of X) { let uniqueidentifier = ID(x); if (uniqueidentifiers.has(uniqueidentifier)) duplicateidentifiers.push({ data: x, uniqueidentifier: uniqueidentifier }); else uniqueidentifiers.set(uniqueidentifier, x); }; if (duplicateidentifiers.length > 0) { M = `${ duplicateidentifiers.map(x => `Data: ${ JSON.stringify(x.data) } with Identifier: ${ JSON.stringify(x.uniqueidentifier) } has an identifier which was seen previously for Data: ${ JSON.stringify(uniqueidentifiers.get(x.uniqueidentifier)) } in this Set.`).join('\\n') }\\n`; return false; } return true;"
+        ]
+    },
+    {
+        "id": "Structure",
+        "defaultargs": {
+            "nullable": false,
+            "allowunknownkeys": false,
+            "knownkeys": {}
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || (typeof X === 'object' && !(X instanceof Array));",
+            "if (X == null) return true; if (Q.knownkeys == null || Q.allowunknownkeys == null) return false; return true;",
+            "if (X == null || Q.allowunknownkeys === true) return true; let knownkeyslist = Object.keys(Q.knownkeys).sort(); let seenkeyslist = Object.keys(X).sort(); let disallowedkeyslist = []; for (let key of seenkeyslist) if (!knownkeyslist.includes(key)) disallowedkeyslist.push(key); if (disallowedkeyslist.length > 0) { M = `${ disallowedkeyslist.map(x => `Key: ${ JSON.stringify(x) } is not allowed in this Structure.`).join('\\n') }\\n`; return false; } return true;",
+            "if (X == null) return true; let requiredkeyslist = Object.keys(Q.knownkeys).filter(key => Q.knownkeys[key].required === true).sort(); let seenkeyslist = Object.keys(X).sort(); let missingrequiredkeyslist = []; for (let key of requiredkeyslist) if (!seenkeyslist.includes(key)) missingrequiredkeyslist.push(key); if (missingrequiredkeyslist.length > 0) { M = `${ missingrequiredkeyslist.map(x => `Key: ${ JSON.stringify(x) } is required, but was not found in this Structure.`).join('\\n') }\\n`; return false; } return true;",
+            "if (X == null) return true; let seenkeyslist = Object.keys(X).sort(); for (let key of seenkeyslist) if (Q.knownkeys[key] !== undefined && P(X[key], { type: 'GetStructureValue', truetype: 'getobjectvalue', key: key, truekey: key }, Q.knownkeys[key].type || 'Void', Q.knownkeys[key].args) !== true) return false; return true;"
+        ]
+    },
+    {
+        "id": "Map",
+        "defaultargs" : {
+            "nullable": false,
+            "keytype": {
+                "type": "String",
+                "args": { "nullable": false }
+            },
+            "valuetype": {
+                "type": "Void",
+                "args": {}
+            },
+            "knownkeys": {}
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "return X == null || (typeof X === 'object' && !(X instanceof Array));",
+            "if (X == null) return true; if (Q.keytype == null || Q.valuetype == null || Q.knownkeys == null) return false; return true;",
+            "if (X == null) return true; let seenkeyslist = Object.keys(X).sort(); for (let key of seenkeyslist) if (P(key, { type: 'GetMapKey', truetype: 'getobjectkey', key: -1, truekey: key }, Q.keytype.type || 'Void', Q.keytype.args) !== true) return false; return true;",
+            "if (X == null) return true; let seenkeyslist = Object.keys(X).sort(); for (let key of seenkeyslist) if (P(X[key], { type: 'GetMapValue', truetype: 'getobjectvalue', key: key, truekey: key }, Q.valuetype.type || 'Void', Q.valuetype.args) !== true) return false; return true;",
+            "if (X == null) return true; let requiredkeyslist = Object.keys(Q.knownkeys).filter(key => Q.knownkeys[key].required === true).sort(); let seenkeyslist = Object.keys(X).sort(); let missingrequiredkeyslist = []; for (let key of requiredkeyslist) if (!seenkeyslist.includes(key)) missingrequiredkeyslist.push(key); if (missingrequiredkeyslist.length > 0) { M = `${ missingrequiredkeyslist.map(x => `Key: ${ JSON.stringify(x) } is required, but was not found in this Map.`).join('\\n') }\\n`; return false; } return true;",
+            "if (X == null) return true; let seenkeyslist = Object.keys(X).sort(); for (let key of seenkeyslist) if (Q.knownkeys[key] !== undefined && Q.knownkeys[key].type !== undefined && P(X[key], { type: 'GetMapValue', truetype: 'getobjectvalue', key: key, truekey: key }, Q.knownkeys[key].type, Q.knownkeys[key].args) !== true) return false; return true;"
+        ]
+    },
+    {
+        "id": "Union",
+        "defaultargs": {
+            "nullable": false,
+            "subtypes": [
+                {
+                    "type": "Void",
+                    "args": {}
+                }
+            ]
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "if (X == null) return true; if (Q.subtypes == null) return false; for (let subtype of Q.subtypes) if (subtype.type == null) return false; return true;",
+            "if (X == null) return true; for (let subtype of Q.subtypes) if (P(X, null, subtype.type, subtype.args) === true) return true; return false;"
+        ]
+    },
+    {
+        "id": "Intersection",
+        "defaultargs": {
+            "nullable": false,
+            "subtypes": [
+                {
+                    "type": "Void",
+                    "args": {}
+                }
+            ]
+        },
+        "assertions": [
+            "return X != null || Q.nullable === true;",
+            "if (X == null) return true; if (Q.subtypes == null) return false; for (let subtype of Q.subtypes) if (subtype == null || subtype.type == null) return false; return true;",
+            "if (X == null) return true; for (let subtype of Q.subtypes) if (P(X, null, subtype.type, subtype.args) !== true) return false; return true;"
+        ]
+    },
+    {
+        "id": "Conditional",
+        "defaultargs": {
+            "subtypes": {},
+            "prereqtype": null,
+            "differentiator": "return '';"
+        },
+        "assertions": [
+            "if (Q.subtypes == null || Q.differentiator == null || (Q.prereqtype != null && Q.prereqtype.type == null)) return false; for (let subtypekey of Object.keys(Q.subtypes).sort()) if (Q.subtypes[subtypekey] == null || Q.subtypes[subtypekey].type == null) return false; return true;",
+            "if (Q.prereqtype == null) return true; return P(X, null, Q.prereqtype.type, Q.prereqtype.args) === true;",
+            "let ID = null; eval(`ID = function () { ${ Q.differentiator } }`); let subtypekey = ID(); if (subtypekey == null || typeof subtypekey !== 'string') return false; if (Q.subtypes[subtypekey] == null) return false; return P(X, null, Q.subtypes[subtypekey].type, Q.subtypes[subtypekey].args) === true;"
+        ]
+    },
+    {
+        "id": "NumberInteger",
+        "defaultargs": {
+            "nullable": false
+        },
+        "assertions": [
+            "return P(X, null, 'Number', Q);",
+            "return X == null || X === Math.floor(X);"
+        ]
+    },
+    {
+        "id": "NumberBounded",
+        "defaultargs": {
+            "nullable": false,
+            "lowerbound": null,
+            "upperbound": null
+        },
+        "assertions": [
+            "return P(X, null, 'Number', Q);",
+            "return X == null || Q.lowerbound == null || X >= Q.lowerbound;",
+            "return X == null || Q.upperbound == null || X <= Q.upperbound;"
+        ]
+    },
+    {
+        "id": "NumberIntegerBounded",
+        "defaultargs": {
+            "nullable": false,
+            "lowerbound": null,
+            "upperbound": null
+        },
+        "assertions": [
+            "return P(X, null, 'NumberInteger', Q);",
+            "return P(X, null, 'NumberBounded', Q);"
+        ]
+    },
+    {
+        "id": "StringEnum",
+        "defaultargs": {
+            "nullable": false,
+            "options": []
+        },
+        "assertions": [
+            "return P(X, null, 'String', Q);",
+            "return X == null || (Q.options != null && Q.options.includes(X));"
+        ]
+    },
+    {
+        "id": "StringRestricted",
+        "defaultargs": {
+            "nullable": false,
+            "minlength": null,
+            "maxlength": null,
+            "allowlowercase": true,
+            "allowuppercase": true,
+            "allownumeric": true,
+            "allowedspecials": []
+        },
+        "assertions": [
+            "return P(X, null, 'String', Q);",
+            "return X == null || Q.minlength == null || X.length >= Q.minlength;",
+            "return X == null || Q.maxlength == null || X.length <= Q.maxlength;",
+            "if (X == null) return true; for (let c of X) { if (Q.allowlowercase === true && (97 <= c.charCodeAt(0) && c.charCodeAt(0) <= 122)) continue; if (Q.allowuppercase === true && (65 <= c.charCodeAt(0) && c.charCodeAt(0) <= 90)) continue; if (Q.allownumeric === true && (48 <= c.charCodeAt(0) && c.charCodeAt(0) <= 57)) continue; if (Q.allowedspecials != null && (Q.allowedspecials.includes(c) === true)) continue; return false; }; return true;"
+        ]
+    },
+    {
+        "id": "StringRegex",
+        "defaultargs": {
+            "nullable": false,
+            "regex": "^$"
+        },
+        "assertions": [
+            "return P(X, null, 'String', Q);",
+            "return X == null || (Q.regex != null && RegExp(Q.regex).test(X));"
+        ]
+    }
+]

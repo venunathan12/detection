@@ -1,0 +1,68 @@
+[
+    "builtin://*",
+    {
+        "id": "ConstantString",
+        "type": {
+            "id": "Constant",
+            "args": {
+                "value": "100"
+            }
+        }
+    },
+    {
+        "id": "ConstantNumber",
+        "type": {
+            "id": "Constant",
+            "args": {
+                "value": 100
+            }
+        }
+    },
+    {
+        "id": "ConstantBoolean",
+        "type": {
+            "id": "Constant",
+            "args": {
+                "value": true
+            }
+        }
+    },
+    {
+        "id": "UnionStringNumber",
+        "type": {
+            "id": "Union",
+            "args": {
+                "nullable": true,
+                "subtypes": [
+                    {
+                        "type": "String",
+                        "args": { "nullable": false }
+                    },
+                    {
+                        "type": "Number",
+                        "args": { "nullable": false }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "IntersectionStringNumber",
+        "type": {
+            "id": "Intersection",
+            "args": {
+                "nullable": true,
+                "subtypes": [
+                    {
+                        "type": "String",
+                        "args": { "nullable": false }
+                    },
+                    {
+                        "type": "Number",
+                        "args": { "nullable": false }
+                    }
+                ]
+            }
+        }
+    }
+]

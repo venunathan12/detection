@@ -1,0 +1,14 @@
+{
+  "name": "type-detector",
+  "version": "1.0.0",
+  "main": "./bin/main.js",
+  "type": "module",
+  "scripts": {
+    "compile": "rm -rf ./bin && npx tsc",
+    "test": "node ./bin/test.js"
+  },
+  "dependencies": {
+    "@types/node": "^22.10.7",
+    "typescript": "^5.7.2"
+  }
+}

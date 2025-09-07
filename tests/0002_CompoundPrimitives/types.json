@@ -1,0 +1,193 @@
+[
+    "builtin://*",
+    {
+        "id": "TestStructureEmpty",
+        "type": {
+            "id": "Structure",
+            "args": {
+                "nullable": true,
+                "allowunknownkeys": false,
+                "knownkeys": {}
+            }
+        }
+    },
+    {
+        "id": "TestStructureAnyKey",
+        "type": {
+            "id": "Structure",
+            "args": {
+                "nullable": true,
+                "allowunknownkeys": true,
+                "knownkeys": {}
+            }
+        }
+    },
+    {
+        "id": "TestStructureStrictKey",
+        "type": {
+            "id": "Structure",
+            "args": {
+                "nullable": false,
+                "allowunknownkeys": false,
+                "knownkeys": {
+                    "key1": { "type": "String", "required": true, "args": { "nullable": true } },
+                    "key2": { "type": "Number", "required": true },
+                    "key3": { "type": "String", "required": false },
+                    "key4": { "type": "Number", "required": false, "args": { "nullable": true } }
+                }
+            }
+        }
+    },
+    {
+        "id": "TestListString",
+        "type": {
+            "id": "List",
+            "args": {
+                "nullable": false,
+                "itemtype": { "type": "String" }
+            }
+        }
+    },
+    {
+        "id": "TestSetString",
+        "type": {
+            "id": "Set",
+            "args": {
+                "nullable": false,
+                "itemtype": { "type": "String", "args": { "nullable": true } }
+            }
+        }
+    },
+    {
+        "id": "TestSetStringUnique",
+        "type": {
+            "id": "Set",
+            "args": {
+                "nullable": false,
+                "itemtype": { "type": "String", "args": { "nullable": false } },
+                "identifier": "return x;"
+            }
+        }
+    },
+    {
+        "id": "TestMapBasic",
+        "type": {
+            "id": "Map",
+            "args": {
+                "nullable": true,
+                "keytype": {
+                    "type": "String",
+                    "args": { "nullable": false }
+                },
+                "valuetype": {
+                    "type": "String",
+                    "args": { "nullable": true }
+                }
+            }
+        }
+    },
+    {
+        "id": "TestMapStringString",
+        "type": {
+            "id": "Map",
+            "args": {
+                "nullable": true,
+                "keytype": {
+                    "type": "String",
+                    "args": { "nullable": false }
+                },
+                "valuetype": {
+                    "type": "String",
+                    "args": { "nullable": true }
+                }
+            }
+        }
+    },
+    {
+        "id": "TestMapStringNumber",
+        "type": {
+            "id": "Map",
+            "args": {
+                "nullable": false,
+                "keytype": {
+                    "type": "String",
+                    "args": { "nullable": false }
+                },
+                "valuetype": {
+                    "type": "Number",
+                    "args": { "nullable": false }
+                }
+            }
+        }
+    },
+    {
+        "id": "TestMapStringNumberWithKnowns",
+        "type": {
+            "id": "Map",
+            "args": {
+                "nullable": false,
+                "keytype": {
+                    "type": "String",
+                    "args": { "nullable": false }
+                },
+                "valuetype": {
+                    "type": "Number",
+                    "args": { "nullable": true }
+                },
+                "knownkeys": {
+                    "special1": {
+                        "required": true
+                    },
+                    "special2": {},
+                    "special3": {
+                        "type": "Number",
+                        "args": { "nullable": false }
+                    },
+                    "special4": {
+                        "required": true,
+                        "type": "Number",
+                        "args": { "nullable": false }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "id": "TestConditionalStructure",
+        "type": {
+            "id": "Conditional",
+            "args": {
+                "subtypes": {
+                    "TypeA": {
+                        "type": "Structure",
+                        "args": {
+                            "nullable": false,
+                            "allowunknownkeys": false,
+                            "knownkeys": {
+                                "Type": { "required": true, "type": "Constant", "args": { "value": "TypeA" } },
+                                "KeyA1": { "required": true, "type": "String", "args": { "nullable": true } },
+                                "KeyA2": { "required": true, "type": "Number", "args": { "nullable": true } }
+                            }
+                        }
+                    },
+                    "TypeZ": {
+                        "type": "Structure",
+                        "args": {
+                            "nullable": false,
+                            "allowunknownkeys": false,
+                            "knownkeys": {
+                                "Type": { "required": true, "type": "Constant", "args": { "value": "TypeZ" } },
+                                "KeyZ1": { "required": true, "type": "Boolean", "args": { "nullable": false } },
+                                "KeyZ2": { "required": true, "type": "Boolean", "args": { "nullable": false } }
+                            }
+                        }
+                    }
+                },
+                "prereqtype": {
+                    "type": "NonNull"
+                },
+                "differentiator": "return X.Type;"
+            }
+        }
+    }
+]
