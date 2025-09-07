@@ -1,5 +1,5 @@
 {
-  "name": "type-detector",
+  "name": "detection",
   "version": "1.0.0",
   "main": "./bin/main.js",
   "type": "module",
