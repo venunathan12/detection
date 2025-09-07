@@ -1,14 +1,37 @@
 {
   "name": "detection",
   "version": "0.1.0",
+  "description": "An npm package for JSON Schema Validation and Detection",
   "main": "./bin/main.js",
   "type": "module",
-  "scripts": {
-    "compile": "rm -rf ./bin && npx tsc",
-    "test": "node ./bin/test.js"
+  "bin": {
+    "detection": "bin/main.js"
+  },
+  "directories": {
+    "test": "tests"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",
     "typescript": "^5.9.2"
-  }
+  },
+  "dependencies": {},
+  "scripts": {
+    "compile": "rm -rf ./bin && npx tsc",
+    "test": "node ./bin/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/venunathan12/detection.git"
+  },
+  "keywords": [
+    "json",
+    "schema"
+  ],
+  "author": "Venu Nathan",
+  "license": "MIT",
+  "types": "./bin/main.d.ts",
+  "bugs": {
+    "url": "https://github.com/venunathan12/detection/issues"
+  },
+  "homepage": "https://github.com/venunathan12/detection#readme"
 }
