@@ -1,14 +1,14 @@
 {
   "name": "detection",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "./bin/main.js",
   "type": "module",
   "scripts": {
     "compile": "rm -rf ./bin && npx tsc",
     "test": "node ./bin/test.js"
   },
-  "dependencies": {
-    "@types/node": "^22.10.7",
-    "typescript": "^5.7.2"
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
   }
 }
