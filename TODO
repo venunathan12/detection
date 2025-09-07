@@ -2,3 +2,4 @@
 2025/09/07 CLI is fine, provide JavaScript/TypeScript API.
 2025/09/07 Allow custom types to have tags which can be searched.
 2025/09/07 After successful validation, allow searching of content based on type/tags.
+2025/09/07 Combine NumberInteger and NumberBounded. It should be similar to StringRestricted.

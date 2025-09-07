@@ -15,7 +15,7 @@ if (datajsonpath == null || typename == null || typespath == null)
 let datajson = JSON.parse((await fs.readFile(datajsonpath)).toString());
 
 let detector = new Detector();
-await detector.LoadTypes(typespath);
+await detector.LoadTypesFromFile(typespath);
 let matchfound: boolean = detector.Assert(datajson, typename, null, true);
 
 function exit()

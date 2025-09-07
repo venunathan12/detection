@@ -1,11 +1,9 @@
 import fs from 'node:fs/promises';
 
+import builtintypes from './types.json' with { type: "json" };
+
 class Detector
 {
-    private static builtin = {
-        typespath: './src/lib/types.json'
-    };
-
     private types: {[key: string]: any} = {};
     private importedfiles: {[key: string]: boolean} = {};
 
@@ -15,16 +13,28 @@ class Detector
 
     private chain: any[] = [];
 
-    public async LoadTypes(typespath: string): Promise<void>
+    public async LoadTypesFromFile(typespath: string): Promise<void>
     {
         if (this.importedfiles[typespath] !== undefined) {
             this.warnings.push(`File ${typespath} is already imported ! Ignoring !\n`); return;
         }
 
-        for (let typeref of JSON.parse((await fs.readFile(typespath)).toString()))
+        let types = JSON.parse((await fs.readFile(typespath)).toString());
+
+        await this.LoadTypes(typespath, types);
+
+        this.importedfiles[typespath] = true;
+    }
+
+    public async LoadTypes(typespath: string, types: any): Promise<void>
+    {
+        for (let typeref of types)
         {
             if (typeof typeref === 'string')
-                await this.LoadTypes(typeref === 'builtin://*' ? Detector.builtin.typespath : typeref);
+                if (typeref === 'builtin://*')
+                    await this.LoadTypes(typeref, builtintypes);
+                else
+                    await this.LoadTypesFromFile(typeref);
             else
             {
                 if (typeof typeref !== 'object' || typeref instanceof Array) {
@@ -44,7 +54,6 @@ class Detector
                 this.types[id] = typeref;
             }
         }
-        this.importedfiles[typespath] = true;
     }
 
     public Assert(current: any, typename: string, typeargs: any, verbose: boolean = true): boolean

@@ -36,7 +36,7 @@ async function Test(tid: string)
     console.log(`Running Test ${tid}`);
 
     let detector = new Detector();
-    await detector.LoadTypes(`${tid}/types.json`);
+    await detector.LoadTypesFromFile(`${tid}/types.json`);
 
     let testcases = (await fs.readdir(tid)).filter(x => /^[0-9]+\-[0-9a-zA-Z]+\-[TF][0-9]+\.json$/.test(x)).sort();
     for (let testcase of testcases)
