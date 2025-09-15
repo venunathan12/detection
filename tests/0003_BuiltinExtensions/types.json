@@ -1,64 +1,74 @@
 [
     "builtin://*",
     {
-        "id": "TestNumberIntegerNonNull",
+        "id": "TestNumberRestrictedNonNull1",
         "type": {
-            "id": "NumberInteger",
+            "id":"NumberRestricted",
             "args": {
-                "nullable": false
+                "nullable": false,
+                "lowerbound": null,
+                "upperbound": null,
+                "isquantized": true
             }
         }
     },
     {
-        "id": "TestNumberIntegerNullable",
+        "id": "TestNumberRestrictedNullable1",
         "type": {
-            "id": "NumberInteger",
+            "id":"NumberRestricted",
             "args": {
-                "nullable": true
+                "nullable": true,
+                "lowerbound": null,
+                "upperbound": null,
+                "isquantized": true
             }
         }
     },
     {
-        "id": "TestNumberBoundedNonNull",
+        "id": "TestNumberRestrictedNonNull2",
         "type": {
-            "id": "NumberBounded",
+            "id":"NumberRestricted",
             "args": {
                 "nullable": false,
                 "lowerbound": 0,
-                "upperbound": 1
+                "upperbound": 1,
+                "isquantized": false
             }
         }
     },
     {
-        "id": "TestNumberBoundedNullable",
+        "id": "TestNumberRestrictedNullable2",
         "type": {
-            "id": "NumberBounded",
+            "id":"NumberRestricted",
             "args": {
                 "nullable": true,
                 "lowerbound": 0,
-                "upperbound": 1
+                "upperbound": 1,
+                "isquantized": false
             }
         }
     },
     {
-        "id": "TestNumberIntegerBoundedNonNull",
+        "id": "TestNumberRestrictedNonNull3",
         "type": {
-            "id": "NumberIntegerBounded",
+            "id":"NumberRestricted",
             "args": {
                 "nullable": false,
                 "lowerbound": 1,
-                "upperbound": 10
+                "upperbound": 10,
+                "isquantized": true
             }
         }
     },
     {
-        "id": "TestNumberIntegerBoundedNullable",
+        "id": "TestNumberRestrictedNullable3",
         "type": {
-            "id": "NumberIntegerBounded",
+            "id":"NumberRestricted",
             "args": {
                 "nullable": true,
                 "lowerbound": 1,
-                "upperbound": 10
+                "upperbound": 10,
+                "isquantized": true
             }
         }
     },
@@ -176,11 +186,12 @@
             "args": {
                 "nullable": false,
                 "itemtype": {
-                    "type": "NumberBounded",
+                    "type": "NumberRestricted",
                     "args": {
                         "nullable": false,
                         "lowerbound": -1,
-                        "upperbound": 1
+                        "upperbound": 1,
+                        "isquantized": false
                     }
                 }
             }

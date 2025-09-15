@@ -180,38 +180,18 @@
         ]
     },
     {
-        "id": "NumberInteger",
-        "defaultargs": {
-            "nullable": false
-        },
-        "assertions": [
-            "return P(X, null, 'Number', Q);",
-            "return X == null || X === Math.floor(X);"
-        ]
-    },
-    {
-        "id": "NumberBounded",
+        "id": "NumberRestricted",
         "defaultargs": {
             "nullable": false,
-            "lowerbound": null,
-            "upperbound": null
+            "lowerbound": 0,
+            "upperbound": 100,
+            "isquantized": true
         },
         "assertions": [
             "return P(X, null, 'Number', Q);",
             "return X == null || Q.lowerbound == null || X >= Q.lowerbound;",
-            "return X == null || Q.upperbound == null || X <= Q.upperbound;"
-        ]
-    },
-    {
-        "id": "NumberIntegerBounded",
-        "defaultargs": {
-            "nullable": false,
-            "lowerbound": null,
-            "upperbound": null
-        },
-        "assertions": [
-            "return P(X, null, 'NumberInteger', Q);",
-            "return P(X, null, 'NumberBounded', Q);"
+            "return X == null || Q.upperbound == null || X <= Q.upperbound;",
+            "return X == null || Q.isquantized == null || !Q.isquantized || X === Math.floor(X);"
         ]
     },
     {
