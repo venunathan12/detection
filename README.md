@@ -1,2 +1,2 @@
 # detection
-An npm package for JSON Schema Validation and Detection
+A Node.js module for JSON Schema Validation and Detection
