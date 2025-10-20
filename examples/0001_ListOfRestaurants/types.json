@@ -1,0 +1,21 @@
+[
+    "builtin://*",
+
+    {
+        "id": "Restaurant",
+        "type": {
+            "id": "String"
+        }
+    },
+    
+    {
+        "id": "ListOfRestaurants",
+        "type": {
+            "id": "List",
+            "args": {
+                "nullable": false,
+                "itemtype": { "type": "Restaurant" }
+            }
+        }
+    }
+]
