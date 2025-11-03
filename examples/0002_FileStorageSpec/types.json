@@ -1,1 +1,106 @@
-[]
+[
+    "builtin://*",
+    
+    {
+        "id": "FileStorageType",
+        "type": {
+            "id": "StringEnum",
+            "args": {
+                "nullable": false,
+                "options": [
+                    "LocalDrive",
+                    "CloudObjectStorage"
+                ]
+            }
+        }
+    },
+
+    {
+        "id": "LocalDriveSpec",
+        "type": {
+            "id": "Structure",
+            "args": {
+                "nullable": false,
+                "allowunknownkeys": false,
+                "knownkeys": {
+                    "storageType": {
+                        "required": true,
+                        "type": "FileStorageType"
+                    },
+                    "driveType": {
+                        "required": true,
+                        "type": "StringEnum",
+                        "args": {
+                            "nullable": false,
+                            "options": ["HDD", "SSD"]
+                        }
+                    },
+                    "capacityInBytes": {
+                        "required": true,
+                        "type": "NumberRestricted",
+                        "args": {
+                            "nullable": false,
+                            "lowerbound": 0,
+                            "upperbound": null,
+                            "isquantized": true
+                        }
+                    },
+                    "mountPoint": {
+                        "required": true,
+                        "type": "String",
+                        "args": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    {
+        "id": "CloudObjectStorageSpec",
+        "type": {
+            "id": "Structure",
+            "args": {
+                "nullable": false,
+                "allowunknownkeys": false,
+                "knownkeys": {
+                    "storageType": {
+                        "required": true,
+                        "type": "FileStorageType"
+                    },
+                    "rootURL": {
+                        "required": true,
+                        "type": "String",
+                        "args": {
+                            "nullable": false
+                        }
+                    },
+                    "accessControlType": {
+                        "required": true,
+                        "type": "StringEnum",
+                        "args": {
+                            "nullable": false,
+                            "options": ["IpAllowlist", "BasicAuth", "SignedRequest"]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    
+    {
+        "id": "FileStorageSpec",
+        "type": {
+            "id": "Conditional",
+            "args": {
+                "prereqtype": {"type": "NonNull"},
+                "subtypes": {
+                    "LocalDrive": {"type": "LocalDriveSpec"},
+                    "CloudObjectStorage": {"type": "CloudObjectStorageSpec"}
+                },
+                "differentiator": "return X.storageType;"
+            }
+        }
+    }
+]

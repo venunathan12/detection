@@ -1,0 +1,5 @@
+{
+    "storageType": "LocalDrive",
+    "rootURL": "https://cloud.com/root",
+    "accessControlType": "SignedRequest"
+}
