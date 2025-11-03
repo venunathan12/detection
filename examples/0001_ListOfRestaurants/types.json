@@ -2,9 +2,101 @@
     "builtin://*",
 
     {
+        "id": "Identifier",
+        "type": {
+            "id": "NumberRestricted",
+            "args": {
+                "nullable": false,
+                "lowerbound": 1,
+                "upperbound": null,
+                "isquantized": true
+            }
+        }
+    },
+
+    {
+        "id": "RestaurantName",
+        "type": {
+            "id": "String",
+            "args": {
+                "nullable": false
+            }
+        },
+        "assertions": [
+            "return X.length > 0;       /* The name of the restaurant must have at least one character. */",
+            "return X === X.trim();     /* The name of the restaurant must not have leading or trailing spaces. */"
+        ]
+    },
+
+    {
+        "id": "RestaurantCuisine",
+        "type": {
+            "id": "StringEnum",
+            "args": {
+                "nullable": false,
+                "options": [
+                    "chinese",
+                    "indian",
+                    "italian",
+                    "mexican"
+                ]
+            }
+        }
+    },
+
+    {
+        "id": "RestaurantRating",
+        "type": {
+            "id": "NumberRestricted",
+            "args": {
+                "nullable": false,
+                "lowerbound": 1,
+                "upperbound": 5,
+                "isquantized": true
+            }
+        }
+    },
+
+    {
         "id": "Restaurant",
         "type": {
-            "id": "String"
+            "id": "Structure",
+            "args": {
+                "nullable": false,
+                "allowunknownkeys": false,
+                "knownkeys": {
+                    "id": {
+                        "required": true,
+                        "type": "Identifier"
+                    },
+                    "name": {
+                        "required": true,
+                        "type": "RestaurantName"
+                    },
+                    "cuisines": {
+                        "required": false,
+                        "type": "Set",
+                        "args": {
+                            "nullable": false,
+                            "itemtype": {
+                                "type": "RestaurantCuisine"
+                            },
+                            "identifier": "return x;"
+                        }
+                    },
+                    "address": {
+                        "required": true,
+                        "type": "String",
+                        "args": {
+                            "nullable": false
+                        }
+                    },
+                    "rating": {
+                        "required": false,
+                        "type": "RestaurantRating"
+                    }
+                }
+            }
         }
     },
     

@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1001,
+        "name": "Hotel CStar",
+        "cuisines": ["indian", "chinese"],
+        "address": "Shop S2, Road R2,\nCity C2",
+        "rating": 4.9
+    }
+]
