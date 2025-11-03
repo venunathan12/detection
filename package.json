@@ -1,6 +1,6 @@
 {
   "name": "@venunathan12/detection",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A Node.js module for JSON Schema Validation and Detection",
   "main": "./bin/main.js",
   "type": "module",

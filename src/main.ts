@@ -8,7 +8,7 @@ let [node, main, datajsonpath, typename, typespath] = process.argv;
 if (datajsonpath == null || typename == null || typespath == null)
 {
     console.log('Usage:');
-    console.log('   node . <datajsonpath> <typename> <typespath>');
+    console.log('   npx detection <datajsonpath> <typename> <typespath>');
     process.exit();
 }
 
@@ -21,6 +21,7 @@ let matchfound: boolean = detector.Assert(datajson, typename, null, true);
 function exit()
 {
     console.log(matchfound ? 'T' : 'F');
+    console.log();
     console.log();
     console.log(`Info: ${ detector.info.length }\n`); for (let line of detector.info) console.log(line);
     console.log();
